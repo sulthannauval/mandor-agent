@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+# mandor: start a Claude Code executor session.
+# Run it from anywhere inside a git repository; it starts at the repository root.
+set -euo pipefail
+root="$(git rev-parse --show-toplevel)"
+cd "$root"
+# Per-device settings that stay out of git (router URL and key).
+if [ -f "$HOME/.config/mandor/env" ]; then . "$HOME/.config/mandor/env"; fi
+# Per-project isolation: throwaway config dirs and protected paths (see templates/project/env.sh).
+if [ -f "$root/.mandor/env.sh" ]; then . "$root/.mandor/env.sh"; fi
+# An RTK auto-rewrite hook compresses diffs and test output; the executor reads them raw.
+export RTK_HOOK_OFF=1
+# Worktrees live next to the checkout (<parent>/wt/<branch>), so the session may work there too.
+# The executor agent's `effort: high` is not applied to a main session started with --agent
+# (it comes up at the model default), so it is passed explicitly.
+exec claude --agent executor --effort high --add-dir "$(dirname "$root")" \
+  --settings "$HOME/.config/mandor/claude/executor-settings.json" "$@"

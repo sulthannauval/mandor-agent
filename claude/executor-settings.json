@@ -1,0 +1,31 @@
+{
+  "permissions": {
+    "defaultMode": "dontAsk",
+    "allow": ["Bash", "Edit", "Write", "Read", "Grep", "Glob", "WebFetch", "Skill", "Monitor", "TaskStop"],
+    "deny": [
+      "Bash(git push origin main*)",
+      "Bash(git push * main)",
+      "Bash(git push * HEAD:main*)",
+      "Bash(git push --force*)",
+      "Bash(git push -f*)",
+      "Bash(git push * --force*)",
+      "Bash(git push * -f)",
+      "Bash(git push * -f *)",
+      "Bash(gh pr merge * --admin*)",
+      "Bash(gh pr merge * --auto*)",
+      "Bash(systemctl *)",
+      "Bash(rm -rf *)"
+    ]
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash|Monitor|Read|Edit|Write|NotebookEdit|MultiEdit",
+        "hooks": [
+          { "type": "command", "command": "python3 ~/.config/mandor/claude/guard.py" }
+        ]
+      }
+    ]
+  },
+  "env": { "RTK_HOOK_OFF": "1" }
+}

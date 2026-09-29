@@ -1,0 +1,10 @@
+# Third-party skills the agents use. install.sh installs each missing one with the skills CLI:
+#   npx skills add <owner/repo>@<skill> -g -y
+# The engineering skills (tdd, code-review, diagnosing-bugs, codebase-design, resolving-merge-conflicts)
+# come from the Claude Code plugin mattpocock-skills@claude-plugins-official.
+getsentry/skills@security-review
+szkocot/andrej-karpathy-skills@karpathy-guidelines
+cursor/plugins@unslop
+# Optional, name them in a project's CLAUDE.local.md when the project needs them:
+# leonardomso/rust-skills@rust-skills
+# blacktop/dotfiles@ratatui-tui

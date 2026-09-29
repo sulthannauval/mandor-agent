@@ -1,0 +1,376 @@
+// mandor-agent: opencode config for the executor runtime.
+// install.sh renders this file to ~/.config/opencode/opencode.jsonc (replacing @HOME@).
+// The router URL and key come from ~/.config/mandor/env (NINEROUTER_BASE_URL, NINEROUTER_API_KEY).
+// Provider "9router-anthropic" holds the five role combos; create them in your router with the same names.
+// Provider "9router" lists single models for manual picks; edit it to match what your router serves.
+{
+  "$schema": "https://opencode.ai/config.json",
+  "provider": {
+    "9router": {
+      "npm": "@ai-sdk/openai-compatible",
+      "options": {
+        "baseURL": "{env:NINEROUTER_BASE_URL}",
+        "apiKey": "{env:NINEROUTER_API_KEY}"
+      },
+      "models": {
+        "alitp-intl/deepseek-v4-pro": {
+          "name": "alitp-intl/deepseek-v4-pro",
+          "modalities": {
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
+          }
+        },
+        "alitp-intl/deepseek-v4.1-flash": {
+          "name": "alitp-intl/deepseek-v4.1-flash",
+          "modalities": {
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
+          }
+        },
+        "alitp-intl/glm-5.2": {
+          "name": "alitp-intl/glm-5.2",
+          "modalities": {
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
+          }
+        },
+        "alitp-intl/qwen3.6-flash": {
+          "name": "alitp-intl/qwen3.6-flash",
+          "modalities": {
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
+          }
+        },
+        "alitp-intl/qwen3.7-max": {
+          "name": "alitp-intl/qwen3.7-max",
+          "modalities": {
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
+          }
+        },
+        "alitp-intl/qwen3.7-plus": {
+          "name": "alitp-intl/qwen3.7-plus",
+          "modalities": {
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
+          }
+        },
+        "alitp-intl/qwen3.8-max": {
+          "name": "alitp-intl/qwen3.8-max",
+          "modalities": {
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
+          }
+        },
+        "alitp-intl/qwen3.8-max-preview": {
+          "name": "alitp-intl/qwen3.8-max-preview",
+          "modalities": {
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
+          }
+        },
+        "glm/glm-4.6v": {
+          "name": "glm/glm-4.6v",
+          "modalities": {
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
+          }
+        },
+        "glm/glm-4.7": {
+          "name": "glm/glm-4.7",
+          "modalities": {
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
+          }
+        },
+        "glm/glm-5": {
+          "name": "glm/glm-5",
+          "modalities": {
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
+          }
+        },
+        "glm/glm-5-turbo": {
+          "name": "glm/glm-5-turbo",
+          "modalities": {
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
+          }
+        },
+        "glm/glm-5.1": {
+          "name": "glm/glm-5.1",
+          "modalities": {
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
+          }
+        },
+        "glm/glm-5.2": {
+          "name": "glm/glm-5.2",
+          "modalities": {
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
+          }
+        },
+        "glm/glm-5.3": {
+          "name": "glm/glm-5.3",
+          "modalities": {
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
+          }
+        },
+        "glm/glm-5.3-flash": {
+          "name": "glm/glm-5.3-flash",
+          "modalities": {
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
+          }
+        }
+      }
+    },
+    "9router-anthropic": {
+      "npm": "@ai-sdk/anthropic",
+      "options": {
+        "baseURL": "{env:NINEROUTER_BASE_URL}",
+        "apiKey": "{env:NINEROUTER_API_KEY}"
+      },
+      "models": {
+        "executor-agent": {
+          "name": "executor-agent",
+          "modalities": {
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "limit": {
+            "context": 200000,
+            "output": 32000
+          },
+          "options": {
+            "thinking": {
+              "type": "enabled",
+              "budgetTokens": 8000
+            }
+          }
+        },
+        "scout-agent": {
+          "name": "scout-agent",
+          "modalities": {
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "limit": {
+            "context": 200000,
+            "output": 32000
+          },
+          "options": {
+            "thinking": {
+              "type": "enabled",
+              "budgetTokens": 8000
+            }
+          }
+        },
+        "coder-agent": {
+          "name": "coder-agent",
+          "modalities": {
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "limit": {
+            "context": 200000,
+            "output": 32000
+          },
+          "options": {
+            "thinking": {
+              "type": "enabled",
+              "budgetTokens": 8000
+            }
+          }
+        },
+        "fixer-agent": {
+          "name": "fixer-agent",
+          "modalities": {
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "limit": {
+            "context": 200000,
+            "output": 32000
+          },
+          "options": {
+            "thinking": {
+              "type": "enabled",
+              "budgetTokens": 8000
+            }
+          }
+        },
+        "reviewer-agent": {
+          "name": "reviewer-agent",
+          "modalities": {
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "limit": {
+            "context": 200000,
+            "output": 32000
+          },
+          "options": {
+            "thinking": {
+              "type": "enabled",
+              "budgetTokens": 8000
+            }
+          }
+        }
+      }
+    }
+  },
+  "model": "9router-anthropic/executor-agent",
+  "instructions": [
+    "CLAUDE.md",
+    "CLAUDE.local.md",
+    "@HOME@/.config/mandor/WORKFLOW.md"
+  ],
+  "permission": {
+    "edit": "allow",
+    "webfetch": "allow",
+    "external_directory": "allow",
+    "bash": {
+      "*": "allow",
+      "rm -rf*": "ask",
+      "systemctl*": "ask",
+      "git push*": "allow",
+      "rtk git push*": "allow",
+      "git push origin main*": "deny",
+      "git push origin HEAD:main*": "deny",
+      "git push -f*": "deny",
+      "git push --force*": "deny",
+      "git push * --force*": "deny",
+      "git push * -f": "deny",
+      "gh pr merge*": "allow",
+      "rtk gh pr merge*": "allow",
+      "gh pr merge* --admin*": "deny",
+      "gh pr merge* --auto*": "deny",
+      "rtk gh pr merge* --admin*": "deny"
+    },
+    "task": {
+      "*": "deny",
+      "scout": "allow",
+      "coder": "allow",
+      "fixer": "allow",
+      "reviewer": "allow"
+    }
+  },
+  "agent": {
+    "build": {
+      "permission": {
+        "edit": {
+          "*": "deny",
+          "plans/*": "allow"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+# mandor: start an opencode executor session, the opencode twin of claude-executor.
+# Run it from anywhere inside a git repository; it starts at the repository root.
+set -euo pipefail
+root="$(git rev-parse --show-toplevel)"
+cd "$root"
+# Per-device settings that stay out of git (router URL and key), read by opencode.jsonc via {env:...}.
+if [ -f "$HOME/.config/mandor/env" ]; then . "$HOME/.config/mandor/env"; fi
+# Per-project isolation: throwaway config dirs and protected paths (see templates/project/env.sh).
+if [ -f "$root/.mandor/env.sh" ]; then . "$root/.mandor/env.sh"; fi
+exec opencode "$@"

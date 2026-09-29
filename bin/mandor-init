@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+# mandor-init: prepare the current git repository for the planner/executor workflow.
+# Safe to run again: it only adds what is missing.
+set -euo pipefail
+root="$(git rev-parse --show-toplevel)"
+cd "$root"
+self="$(readlink -f "${BASH_SOURCE[0]}")"
+templates="$(cd "$(dirname "$self")/../templates/project" && pwd)"
+
+mkdir -p plans .mandor
+exclude="$(git rev-parse --git-path info/exclude)"
+mkdir -p "$(dirname "$exclude")"
+touch "$exclude"
+for entry in plans/ .mandor/ CLAUDE.local.md; do
+  if [ "$entry" = CLAUDE.local.md ] && git ls-files --error-unmatch CLAUDE.local.md >/dev/null 2>&1; then
+    continue  # the project tracks it; leave its ignore rules alone
+  fi
+  grep -qxF "$entry" "$exclude" || echo "$entry" >> "$exclude"
+done
+echo "untracked: plans/, .mandor/ and CLAUDE.local.md are in $(realpath --relative-to="$root" "$exclude")"
+
+if [ ! -f .mandor/env.sh ]; then
+  cp "$templates/env.sh" .mandor/env.sh
+  echo "created .mandor/env.sh: set protected paths and throwaway config dirs for this project"
+fi
+
+if ! grep -q "config/mandor/PLANNER.md" CLAUDE.local.md 2>/dev/null; then
+  { [ -s CLAUDE.local.md ] && echo; cat "$templates/CLAUDE.local.md"; } >> CLAUDE.local.md
+  echo "added the planner import and a project-layer skeleton to CLAUDE.local.md: fill in the build, test and lint commands"
+fi
+echo "done: plan in a Claude Code session here, execute with opencode-executor or claude-executor"
