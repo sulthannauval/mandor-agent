@@ -9,7 +9,7 @@ Claude Code sessions in this repository act as the planner. The shared rules are
 These are the project-specific commands and limits that the executor and its subagents follow, in either runtime. The general workflow lives in `~/.config/mandor/WORKFLOW.md`.
 
 - Build: `<command>`
-- Focused tests: `<command for one module>`. Never run the whole suite when a narrower target covers the change.
+- Focused tests: `<command for one module>`. Run the narrowest target that covers the change.
 - Formatter: `<command>`
 - Local gate before pushing (match what CI runs): `<commands>`
 - Machine limits: `<RAM, cores, disk notes, parallel build limits>`

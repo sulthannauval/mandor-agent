@@ -41,7 +41,7 @@ You can switch runtimes between batches or in the middle of one. Plans and promp
 
 ### Skills
 
-The agents use one plugin and three skills, and `install.sh` installs all of them.
+The planner and the agents use one plugin and three skills, and `install.sh` installs all of them.
 
 | Skill | From | Used by |
 |---|---|---|
@@ -50,6 +50,8 @@ The agents use one plugin and three skills, and `install.sh` installs all of the
 | `codebase-design` | plugin `mattpocock-skills` | coder, reviewer |
 | `code-review` | plugin `mattpocock-skills` | reviewer |
 | `resolving-merge-conflicts` | plugin `mattpocock-skills` | fixer |
+| `grilling`, `research`, `writing-for-agents` | plugin `mattpocock-skills` | planner |
+| `/grill-with-docs`, `/handoff` | plugin `mattpocock-skills` | you, when the planner suggests them |
 | `karpathy-guidelines` | `szkocot/andrej-karpathy-skills` | coder |
 | `security-review` | `getsentry/skills` | executor, reviewer |
 | `unslop` | `cursor/plugins` | executor, fixer |

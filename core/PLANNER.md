@@ -10,11 +10,11 @@ This file is for the planner: a Claude Code session that writes plans, hands the
 4. The owner relays the executor's final report to the planner.
 5. The planner reviews every merged PR (see "Reviewing a batch"), then writes the next batch.
 
-The planner does not merge while a batch is running and does not code in the planner session. The one exception is a blocker left over after the batch (see "Blockers").
+Merging and coding belong to the executor. The planner's one exception is a blocker left over after a batch (see "Blockers").
 
 ## Executor runtimes
 
-The executor runs in **opencode by default**. **Claude Code is the occasional alternative**, used when the owner decides to, for example while the Claude subscription has quota to spare. **The owner may switch between them at any time and as often as they like: between batches, or in the middle of one.** Nothing the planner writes depends on the runtime. Both run the same `WORKFLOW.md`, the same four subagent roles, and the same report, so a plan and an execution prompt must work unchanged in either. Never write runtime-specific instructions into a prompt.
+The executor runs in **opencode by default**. **Claude Code is the occasional alternative**, used when the owner decides to, for example while the Claude subscription has quota to spare. **The owner may switch between them at any time and as often as they like: between batches, or in the middle of one.** Nothing the planner writes depends on the runtime. Both run the same `WORKFLOW.md`, the same four subagent roles, and the same report, so a plan and an execution prompt must work unchanged in either.
 
 To switch in the middle of a batch, the owner stops the running session (or it has died), starts the other runtime, and pastes the same prompt with the line "Continue this batch from the checkpoint." The executor then resumes from the handoff plan's status table and the state of git and GitHub (`WORKFLOW.md`, "Continuing a batch").
 
@@ -29,12 +29,21 @@ To switch in the middle of a batch, the owner stops the running session (or it h
 
 When reviewing a batch, check which runtime ran it (report item 1). Compare runtimes on the same measures: reviewer rejections, time per plan, and quota used per plan.
 
+## Skills
+
+The planner uses these from the `mattpocock-skills` plugin, in the order a batch meets them:
+
+- `grilling`: when the owner's request is large or still fuzzy, interview the owner in rounds before writing any plan. When the work also needs a glossary or ADRs, suggest the owner run `/grill-with-docs` instead.
+- `research`: when a plan rests on how an external system behaves, such as a router, a library, or a third-party API. Save its notes in `plans/`, where they stay untracked.
+- `writing-for-agents`: before writing plans or an execution prompt, and before editing `WORKFLOW.md`, this file, or an agent file. Agents read every one of them.
+- `/handoff`: after reviewing a batch in a long session, suggest the owner run it. Every turn re-sends the whole context, so the next batch is cheaper to plan in a fresh session that starts from the handoff document.
+
 ## Writing a batch
 
-- Plans are files in the project's local, untracked `plans/` directory. Never commit them.
-- Before writing a batch, run `git status` in the main checkout. Tracked files that are modified and not committed must be explained or stashed before the executor starts.
+- Plans are files in the project's local, untracked `plans/` directory, and they stay untracked.
+- Before writing a batch, run `git status` in the main checkout. Modified tracked files must be explained or stashed before the executor starts.
 - Put plans in the order they must run. Mark a plan "needs X" when it depends on plan X. Two plans that touch the same file (other than the changelog) depend on each other. A plan that needs X goes after X in the same batch; the executor starts it only once X is merged and `main` is green.
-- The execution prompt carries only what is specific to this batch: the list and order, the handoff plan path, per-plan notes, and STOP conditions. Do not repeat rules that `WORKFLOW.md` or the project's rules file already give the executor.
+- The execution prompt carries only what is specific to this batch: the list and order, the handoff plan path, per-plan notes, and STOP conditions. Rules already in `WORKFLOW.md` or the project's rules file stay there.
 - Include one general STOP: before starting, `git status` shows no modified tracked files.
 
 ## Reviewing a batch
@@ -54,10 +63,10 @@ Every merged PR gets a light check. PRs that meet a trigger also get a full revi
 
 A full review reads the merged change at the source (`git show <merge SHA>`) and checks:
 
-1. Every plan step is done and the scope did not grow.
+1. Every plan step is done and the scope matches the plan.
 2. Each test would fail if the fix were removed. Rerun the mutation when in doubt.
 3. Nothing was missed: other callers, docs that describe the changed behavior, the changelog, a config or schema version.
-4. The PR does not conflict in meaning with another PR in the same batch. Read `git diff <batch base>..<batch head>` for this.
+4. The PR agrees in meaning with the other PRs in the same batch. Read `git diff <batch base>..<batch head>` for this.
 
 **Outcomes:**
 
