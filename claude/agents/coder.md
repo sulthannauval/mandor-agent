@@ -30,7 +30,6 @@ Every tool call re-sends your whole context, so never pass time with `true`, `ec
 - `karpathy-guidelines` (preloaded): make the smallest change that satisfies the step and leave neighbouring code alone.
 - `mattpocock-skills:codebase-design`: load it with the Skill tool when the step adds or reshapes an interface, or you have to decide where a seam goes.
 - `mattpocock-skills:diagnosing-bugs`: load it when a test fails and the cause is not obvious from the output. Use it before your second attempt, not after.
-- Any skill the project's rules file names for its language or area (for example `rust-skills` or `ratatui-tui`).
 
 ## Order of work
 

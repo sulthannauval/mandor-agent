@@ -34,7 +34,6 @@ The executor stages, commits, and pushes. `git add`, `git commit`, `git stash`, 
 - `karpathy-guidelines`: always. Make the smallest change that satisfies the step and leave neighbouring code alone.
 - `codebase-design`: when the step adds or reshapes an interface, or you have to decide where a seam goes.
 - `diagnosing-bugs`: when a test fails and the cause is not obvious from the output. Use it before your second attempt, not after.
-- Any skill the project's rules file names for its language or area (for example a Rust or TUI skill).
 
 ## Order of work
 

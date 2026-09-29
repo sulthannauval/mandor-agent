@@ -15,4 +15,3 @@ These are the project-specific commands and limits that the executor and its sub
 - Machine limits: `<RAM, cores, disk notes, parallel build limits>`
 - High-risk paths (a full review and `security-review` apply): `<paths>`
 - Changelog and versioning rules: `<rules, or "none">`
-- Skills for this project, on top of the ones each agent names: `<for example rust-skills for Rust changes>`

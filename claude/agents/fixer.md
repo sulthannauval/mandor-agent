@@ -29,7 +29,6 @@ Never silence a lint with a suppression attribute or comment. Never delete or we
 - `mattpocock-skills:resolving-merge-conflicts`: load it with the Skill tool for a merge conflict in code or docs. Follow its steps 1 to 4. Do not do step 5: the executor stages and commits the merge. Resolve a code conflict only when both intents can be kept without inventing new behavior. If the two sides are incompatible and one intent would have to win, stop and report it, with both sides quoted.
 - A conflict only inside the changelog does not need the skill. Keep both entries, each under its right heading and in date order, remove the conflict markers, confirm with `git diff` that nothing else changed, and report. Do not read history or run the full checks for it.
 - For prose you write, such as changelog entries and docs, follow the unslop rules and match the style of the existing entries. An agent cannot invoke the `unslop` skill in Claude Code, so read `~/.claude/skills/unslop/SKILL.md` once and apply it.
-- Any skill the project's rules file names for its language or area.
 
 ## How to work
 

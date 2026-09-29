@@ -39,6 +39,23 @@ The protocols are two files. [`core/WORKFLOW.md`](core/WORKFLOW.md) is the execu
 
 You can switch runtimes between batches or in the middle of one. Plans and prompts never depend on the runtime.
 
+### Skills
+
+The agents use one plugin and three skills, and `install.sh` installs all of them.
+
+| Skill | From | Used by |
+|---|---|---|
+| `tdd` | plugin `mattpocock-skills` | coder |
+| `diagnosing-bugs` | plugin `mattpocock-skills` | coder |
+| `codebase-design` | plugin `mattpocock-skills` | coder, reviewer |
+| `code-review` | plugin `mattpocock-skills` | reviewer |
+| `resolving-merge-conflicts` | plugin `mattpocock-skills` | fixer |
+| `karpathy-guidelines` | `szkocot/andrej-karpathy-skills` | coder |
+| `security-review` | `getsentry/skills` | executor, reviewer |
+| `unslop` | `cursor/plugins` | executor, fixer |
+
+The scout uses none. It only reads and reports, and a loaded skill adds tokens to every turn it takes.
+
 ## Requirements
 
 - `git`, `python3`, and the GitHub CLI `gh`, logged in to the account that opens the PRs.

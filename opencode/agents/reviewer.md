@@ -47,7 +47,6 @@ Work from the diff. Read a file in full only when the diff alone cannot answer a
 - `code-review`: always. Run both of its axes, Standards and Spec, yourself and one after the other; you cannot spawn sub-agents, so skip its step 4. The fixed point is `origin/main` (three-dot diff as above). The spec is the plan file, so skip its issue-tracker step. The standards sources are the project's CLAUDE.md, CLAUDE.local.md, AGENTS.md, and CONTRIBUTING.md, plus the skill's smell baseline.
 - `security-review`: when the diff touches a path the project's rules file marks as high risk, or anything handling authentication, access control, secrets, network exposure, or audit records.
 - `codebase-design`: when a Standards finding is about an interface or a seam, for the vocabulary.
-- Any skill the project's rules file names for its language or area.
 
 ## Checklist
 

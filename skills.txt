@@ -5,6 +5,3 @@
 getsentry/skills@security-review
 szkocot/andrej-karpathy-skills@karpathy-guidelines
 cursor/plugins@unslop
-# Optional, name them in a project's CLAUDE.local.md when the project needs them:
-# leonardomso/rust-skills@rust-skills
-# blacktop/dotfiles@ratatui-tui

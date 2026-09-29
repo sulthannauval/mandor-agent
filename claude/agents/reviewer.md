@@ -25,7 +25,6 @@ Use plain commands, not `rtk`: its filters drop diff lines. Work from the diff. 
 - `mattpocock-skills:code-review` (preloaded): run both of its axes, Standards and Spec, yourself and one after the other. You cannot spawn sub-agents, so skip its step 4. The fixed point is `origin/main` (three-dot diff as above). The spec is the plan file, so skip its issue-tracker step. The standards sources are the project's CLAUDE.md, CLAUDE.local.md, AGENTS.md and CONTRIBUTING.md, plus the skill's smell baseline.
 - `security-review`: load it with the Skill tool when the diff touches a path the project's rules file marks as high risk, or anything handling authentication, access control, secrets, network exposure, or audit records.
 - `mattpocock-skills:codebase-design`: load it when a Standards finding is about an interface or a seam, for the vocabulary.
-- Any skill the project's rules file names for its language or area (for example `rust-skills`).
 
 ## Checklist
 
