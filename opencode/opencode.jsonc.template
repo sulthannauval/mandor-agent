@@ -1,6 +1,7 @@
 // mandor-agent: opencode config for the executor runtime.
 // install.sh renders this file to ~/.config/opencode/opencode.jsonc (replacing @HOME@).
-// The router URL and key come from ~/.config/mandor/env (NINEROUTER_BASE_URL, NINEROUTER_API_KEY).
+// The router URL and key come from ~/.config/mandor/router-url and router-key, one value per file,
+// read with {file:...} so every opencode session finds them, whether a launcher started it or not.
 // Provider "9router-anthropic" holds the five role combos; create them in your router with the same names.
 // Provider "9router" lists single models for manual picks; edit it to match what your router serves.
 {
@@ -9,8 +10,8 @@
     "9router": {
       "npm": "@ai-sdk/openai-compatible",
       "options": {
-        "baseURL": "{env:NINEROUTER_BASE_URL}",
-        "apiKey": "{env:NINEROUTER_API_KEY}"
+        "baseURL": "{file:~/.config/mandor/router-url}",
+        "apiKey": "{file:~/.config/mandor/router-key}"
       },
       "models": {
         "alitp-intl/deepseek-v4-pro": {
@@ -210,8 +211,8 @@
     "9router-anthropic": {
       "npm": "@ai-sdk/anthropic",
       "options": {
-        "baseURL": "{env:NINEROUTER_BASE_URL}",
-        "apiKey": "{env:NINEROUTER_API_KEY}"
+        "baseURL": "{file:~/.config/mandor/router-url}",
+        "apiKey": "{file:~/.config/mandor/router-key}"
       },
       "models": {
         "executor-agent": {

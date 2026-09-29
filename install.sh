@@ -73,7 +73,7 @@ if [ "$UNINSTALL" = 1 ]; then
       say "removed $dst"
     fi
   done
-  say "left in place: ~/.config/mandor/env, ~/.config/opencode/opencode.jsonc, installed skills and plugins"
+  say "left in place: ~/.config/mandor/router-url and router-key, ~/.config/opencode/opencode.jsonc, installed skills and plugins"
   exit 0
 fi
 
@@ -89,12 +89,15 @@ for pair in "${LINKS[@]}"; do
   link "${pair%%:*}" "${pair#*:}"
 done
 
-# Per-device settings that never go into git.
+# Per-device router settings that never go into git, one value per file. opencode.jsonc reads
+# them with {file:...}, so a plain `opencode` session finds them as well as opencode-executor.
 mkdir -p "$HOME/.config/mandor"
-if [ ! -f "$HOME/.config/mandor/env" ]; then
-  install -m 600 "$REPO/env.example" "$HOME/.config/mandor/env"
-  warn "fill in $HOME/.config/mandor/env with your router URL and key"
-fi
+for name in router-url router-key; do
+  if [ ! -f "$HOME/.config/mandor/$name" ]; then
+    (umask 077 && printf 'replace-me\n' > "$HOME/.config/mandor/$name")
+    warn "write your router's ${name#router-} into $HOME/.config/mandor/$name"
+  fi
+done
 
 # opencode config: rendered, because it needs this device's home path.
 render_opencode() {
@@ -181,6 +184,6 @@ fi
 
 say ""
 say "mandor-agent is installed. Next:"
-say "  1. Fill in ~/.config/mandor/env (router URL and key) if you use the opencode executor."
+say "  1. If you use opencode, write the router URL and key into ~/.config/mandor/router-url and router-key."
 say "  2. In each project: run mandor-init, then fill in the project layer in CLAUDE.local.md and .mandor/env.sh."
 say "  3. Plan in a Claude Code session in the project; execute with opencode-executor or claude-executor."

@@ -4,8 +4,6 @@
 set -euo pipefail
 root="$(git rev-parse --show-toplevel)"
 cd "$root"
-# Per-device settings that stay out of git (router URL and key).
-if [ -f "$HOME/.config/mandor/env" ]; then . "$HOME/.config/mandor/env"; fi
 # Per-project isolation: throwaway config dirs and protected paths (see templates/project/env.sh).
 if [ -f "$root/.mandor/env.sh" ]; then . "$root/.mandor/env.sh"; fi
 # An RTK auto-rewrite hook compresses diffs and test output; the executor reads them raw.

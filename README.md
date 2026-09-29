@@ -71,14 +71,14 @@ The scout uses none. It only reads and reports, and a loaded skill adds tokens t
 git clone https://github.com/sulthannauval/mandor-agent ~/project/mandor-agent
 cd ~/project/mandor-agent
 ./install.sh
-$EDITOR ~/.config/mandor/env      # router URL and key, only for the opencode executor
+$EDITOR ~/.config/mandor/router-url ~/.config/mandor/router-key   # only if you use opencode
 ```
 
 `install.sh` is safe to run again. It:
 
 - links the protocols, the Claude Code and opencode agents, the guard and the launchers from this clone into `~/.config/mandor/`, `~/.claude/agents/`, `~/.config/opencode/agents/` and `~/.local/bin/`,
 - renders `~/.config/opencode/opencode.jsonc` from [`opencode/opencode.jsonc.template`](opencode/opencode.jsonc.template), leaving a config it did not write alone unless you pass `--force`,
-- creates `~/.config/mandor/env` from [`env.example`](env.example) once, with mode 600,
+- creates `~/.config/mandor/router-url` and `router-key` once, with mode 600, for the router's base URL and API key; `opencode.jsonc` reads them with `{file:...}`, so every opencode session finds them,
 - installs the Claude Code plugin `mattpocock-skills` and links its engineering skills for opencode,
 - installs the skills in [`skills.txt`](skills.txt) with `npx skills add`,
 - if an RTK hook is set up in Claude Code, makes it honour `RTK_HOOK_OFF`, so executor sessions read diffs and test output whole.
@@ -132,7 +132,7 @@ Check usage per runtime: `/usage` in Claude Code, and your router's usage page f
 
 Everything except `opencode.jsonc` is a symlink into the clone, so an edit on any device is an edit to the repository. Commit and push it; on the other devices run `git pull`, and `./install.sh` again if files were added or the opencode template changed.
 
-What never goes into git: `~/.config/mandor/env` (router URL and key), each project's `.mandor/env.sh`, `plans/` and `CLAUDE.local.md`.
+What never goes into git: `~/.config/mandor/router-url` and `router-key`, each project's `.mandor/env.sh`, `plans/` and `CLAUDE.local.md`.
 
 ## Troubleshooting
 
