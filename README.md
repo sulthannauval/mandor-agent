@@ -1,5 +1,7 @@
 # mandor-agent
 
+[![CI](https://github.com/sulthannauval/mandor-agent/actions/workflows/ci.yml/badge.svg)](https://github.com/sulthannauval/mandor-agent/actions/workflows/ci.yml)
+
 A planner and executor workflow for coding agents. One Claude Code session plans and reviews. An executor, running in opencode or in Claude Code, ships the plans one pull request at a time through four subagents: scout, coder, fixer and reviewer.
 
 *Mandor* is Indonesian for the foreman who splits the work among the crew and checks it before it is handed over.
@@ -60,6 +62,7 @@ The scout uses none. It only reads and reports, and a loaded skill adds tokens t
 
 ## Requirements
 
+- Linux. The scripts use GNU `find` and `realpath` options that stock macOS lacks.
 - `git`, `python3`, and the GitHub CLI `gh`, logged in to the account that opens the PRs.
 - [Claude Code](https://claude.com/claude-code) for the planner and the Claude Code executor.
 - [opencode](https://opencode.ai) for the opencode executor, plus a router that serves both an OpenAI-style and an Anthropic-style (`/v1/messages`) endpoint. [9router](https://github.com/decolua/9router) is the one this was built on.
@@ -130,7 +133,7 @@ Check usage per runtime: `/usage` in Claude Code, and your router's usage page f
 
 ## Keep devices in sync
 
-Everything except `opencode.jsonc` is a symlink into the clone, so an edit on any device is an edit to the repository. Commit and push it; on the other devices run `git pull`, and `./install.sh` again if files were added or the opencode template changed.
+Apart from `opencode.jsonc` and the two router files, everything the installer places is a symlink into the clone, so editing those files on any device edits the repository. Commit and push the change; on the other devices run `git pull`, and `./install.sh` again if files were added or the opencode template changed.
 
 What never goes into git: `~/.config/mandor/router-url` and `router-key`, each project's `.mandor/env.sh`, `plans/` and `CLAUDE.local.md`.
 
@@ -142,6 +145,30 @@ What never goes into git: `~/.config/mandor/router-url` and `router-key`, each p
 - **Cache hits look like zero for some providers in opencode.** Some routers do not pass cache usage through to opencode. Read the router's own usage log instead.
 - **Diffs or test output look cut short.** A compression layer is on: the router's tool-output compression, or an RTK hook in a session not started by a launcher.
 - **The executor runs at medium effort in Claude Code.** Start it with `claude-executor`, which passes `--effort high`, or type `/effort high` in the session.
+- **A stopped executor starts working again.** Esc only interrupts the current turn, and a background command such as a wait on CI wakes the session when it ends. Stop an executor with `/exit`.
+
+## Repository layout
+
+| Path | Holds |
+|---|---|
+| `core/` | the two protocols, `WORKFLOW.md` for the executor and `PLANNER.md` for the planner |
+| `claude/` | the Claude Code agents, the guard hook and the executor session settings |
+| `opencode/` | the opencode agents and the `opencode.jsonc` template |
+| `bin/` | the launchers `claude-executor` and `opencode-executor`, and `mandor-init` |
+| `templates/project/` | the files `mandor-init` adds to a project |
+| `tests/` | the guard and config tests |
+
+## Development
+
+Run the checks CI runs before you push:
+
+```bash
+shellcheck --severity=style install.sh bin/* templates/project/env.sh
+python3 tests/test_guard.py
+python3 tests/test_config.py    # needs PyYAML
+```
+
+The protocols and agent files are prompts. Keep the Claude Code and opencode versions of an agent in step, and keep `: ` out of a frontmatter `description`, which is a plain YAML scalar.
 
 ## License
 
