@@ -33,9 +33,6 @@ LINKS=(
   "bin/claude-executor:$HOME/.local/bin/claude-executor"
   "bin/opencode-executor:$HOME/.local/bin/opencode-executor"
   "bin/mandor-init:$HOME/.local/bin/mandor-init"
-  # Older setups imported the protocols from here; keep these paths pointing at the same files.
-  "core/WORKFLOW.md:$HOME/.config/opencode/WORKFLOW.md"
-  "core/PLANNER.md:$HOME/.config/opencode/PLANNER.md"
 )
 for f in "$REPO"/claude/agents/*.md; do
   LINKS+=("claude/agents/$(basename "$f"):$HOME/.claude/agents/$(basename "$f")")
