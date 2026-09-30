@@ -5,6 +5,7 @@ set -euo pipefail
 root="$(git rev-parse --show-toplevel)"
 cd "$root"
 # Per-project isolation: throwaway config dirs and protected paths (see templates/project/env.sh).
+# shellcheck source=/dev/null
 if [ -f "$root/.mandor/env.sh" ]; then . "$root/.mandor/env.sh"; fi
 # An RTK auto-rewrite hook compresses diffs and test output; the executor reads them raw.
 export RTK_HOOK_OFF=1

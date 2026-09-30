@@ -148,7 +148,7 @@ if [ "$SKILLS" = 1 ]; then
       || warn "could not install it; run: claude plugin install mattpocock-skills@claude-plugins-official"
   fi
   if [ -d "$cache" ]; then
-    version="$(ls "$cache" | sort -V | tail -1)"
+    version="$(find "$cache" -mindepth 1 -maxdepth 1 -type d -printf '%f\n' | sort -V | tail -1)"
     skills="$cache/$version/skills/engineering"
     target="$HOME/.config/opencode/skill"
     mkdir -p "$target"
@@ -181,6 +181,8 @@ fi
 
 say ""
 say "mandor-agent is installed. Next:"
-say "  1. If you use opencode, write the router URL and key into ~/.config/mandor/router-url and router-key."
-say "  2. In each project: run mandor-init, then fill in the project layer in CLAUDE.local.md and .mandor/env.sh."
-say "  3. Plan in a Claude Code session in the project; execute with opencode-executor or claude-executor."
+if grep -qx 'replace-me' "$HOME/.config/mandor/router-url" "$HOME/.config/mandor/router-key"; then
+  say "  - If you use opencode, write the router URL and key into ~/.config/mandor/router-url and router-key."
+fi
+say "  - In each project: run mandor-init, then fill in the project layer in CLAUDE.local.md and .mandor/env.sh."
+say "  - Plan in a Claude Code session in the project; execute with opencode-executor or claude-executor."

@@ -25,7 +25,8 @@ if [ ! -f .mandor/env.sh ]; then
 fi
 
 if ! grep -q "config/mandor/PLANNER.md" CLAUDE.local.md 2>/dev/null; then
-  { [ -s CLAUDE.local.md ] && echo; cat "$templates/CLAUDE.local.md"; } >> CLAUDE.local.md
+  if [ -s CLAUDE.local.md ]; then echo >> CLAUDE.local.md; fi
+  cat "$templates/CLAUDE.local.md" >> CLAUDE.local.md
   echo "added the planner import and a project-layer skeleton to CLAUDE.local.md: fill in the build, test and lint commands"
 fi
 echo "done: plan in a Claude Code session here, execute with opencode-executor or claude-executor"

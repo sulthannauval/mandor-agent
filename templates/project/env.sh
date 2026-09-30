@@ -1,3 +1,4 @@
+# shellcheck shell=bash
 # mandor project settings, sourced by claude-executor and opencode-executor from <repo>/.mandor/env.sh.
 # It stays out of git (mandor-init adds .mandor/ to .git/info/exclude).
 # Everything exported here applies to every command in the executor session and its subagents.
