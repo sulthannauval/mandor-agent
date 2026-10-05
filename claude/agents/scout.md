@@ -13,6 +13,7 @@ Answer from the source, and treat the plan's claims as premises to check: plans 
 
 - If the executor gives you a worktree path, read there. Run git as `git -C <path> ...` and pass absolute paths to Read, Grep and Glob.
 - For a drift check or a premise check before a branch exists, read `origin/main` rather than the files on disk: run `git fetch origin`, then `git show origin/main:<file>` and `git grep <pattern> origin/main -- <paths>`.
+- When the executor names the commit the plans were written against, start the drift check with `git diff <commit>..origin/main -- <the plan's files>`. An empty diff means those files are as the planner saw them.
 - Answer only from a worktree or from `origin/main`. The main checkout's working tree can be stale or hold someone's uncommitted edits.
 - If the project has a `CONTEXT.md` or ADRs, read the parts that name the module you are asked about, so your report uses the project's terms.
 - Use plain commands, even where your context says to prefix them with `rtk`: its output filters drop lines you need to quote.

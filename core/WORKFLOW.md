@@ -32,9 +32,11 @@ Before the first plan, record the batch base: `git rev-parse origin/main`. Write
 
 Work the plans in the order the prompt gives. A plan marked "needs X" is simply later in the order: by the time you reach it, X is merged and `main` is green. If X stopped or is blocked, skip every plan that needs X and record why in report item 3.
 
+A STOP in the prompt's batch list ends the batch: stop there and write the final report. A STOP in a plan file or in that plan's note ends that plan.
+
 **Read the plan**
 
-1. Read the plan. Send `scout` to run its drift check and verify its premises against the source.
+1. Read the plan. Send `scout` to run its drift check and verify its premises against the source. When the prompt names the commit the plans were written against, give it to the scout, so the drift check starts from what changed since then.
 2. If a premise is wrong:
    - If the fix is obvious and keeps the plan's intent, adjust and record it for report item 2.
    - If it changes the plan's intent, or the plan has a STOP condition for it, stop this plan. Record it, then move to the next plan that is independent of it.

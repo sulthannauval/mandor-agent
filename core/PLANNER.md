@@ -43,8 +43,36 @@ The planner uses these from the `mattpocock-skills` plugin, in the order a batch
 - Plans are files in the project's local, untracked `plans/` directory, and they stay untracked.
 - Before writing a batch, run `git status` in the main checkout. Modified tracked files must be explained or stashed before the executor starts.
 - Put plans in the order they must run. Mark a plan "needs X" when it depends on plan X. Two plans that touch the same file (other than the changelog) depend on each other. A plan that needs X goes after X in the same batch; the executor starts it only once X is merged and `main` is green.
-- The execution prompt carries only what is specific to this batch: the list and order, the handoff plan path, per-plan notes, and STOP conditions. Rules already in `WORKFLOW.md` or the project's rules file stay there.
-- Include one general STOP: before starting, `git status` shows no modified tracked files.
+
+### The execution prompt
+
+The prompt carries only what is specific to this batch, in the shape below. Rules already in `WORKFLOW.md` or the project's rules file stay there.
+
+```text
+Batch <name>: <the goal in one sentence>. Run from the <repository> repository.
+
+Handoff plan: <path> (section "<heading>")
+Plans written against main at <SHA>
+
+Order:
+1. <plan path>
+2. <plan path> (needs <plan number>)
+
+Notes per plan:
+- <plan number>: <what the plan file does not say>
+
+Batch constraints:
+- <a schema, version or file that must stay as it is, such as the files of a batch running in parallel>
+
+STOP, for the whole batch:
+- Before starting, git status shows modified tracked files.
+- <a condition specific to this batch>
+```
+
+- Fill the text in the owner's language. Keep the labels and the words `needs` and `STOP` as written, because `WORKFLOW.md` uses them.
+- The SHA is the `origin/main` commit you last checked every plan's premises against. The scout measures drift from it.
+- Under a heading with nothing to say, write "none", so the executor knows the heading was considered.
+- A STOP in this list ends the whole batch. A condition that ends one plan goes in that plan's file or in its note.
 
 ## Reviewing a batch
 
