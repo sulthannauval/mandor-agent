@@ -1,7 +1,7 @@
 ---
 description: Implements one plan step that changes behavior, test-first, and owns its edit-test loop including the mutation check. Give it the worktree path, the plan path, the exact step, and the scout's relevant findings. Hands back an uncommitted diff for the executor to commit.
 mode: subagent
-model: 9router-anthropic/coder-agent
+model: 9router-agent/coder-agent
 permission:
   edit: allow
   task: deny

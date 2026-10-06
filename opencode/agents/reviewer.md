@@ -1,7 +1,7 @@
 ---
 description: Pre-merge reviewer. Checks a finished diff against its plan along the code-review skill's two axes and the review checklist, before the executor pushes. Give it the worktree path, the plan path, and the coder's report. Read-only; it approves or rejects with reasons and file:line.
 mode: subagent
-model: 9router-anthropic/reviewer-agent
+model: 9router-agent/reviewer-agent
 steps: 40
 permission:
   edit: deny

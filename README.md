@@ -108,7 +108,7 @@ Router settings that matter:
 
 - Use **Fallback**, not Round Robin (it switches models mid-task and throws away the prompt cache) or Fusion (it pays for every model on every step).
 - Turn **off** any tool-output compression, such as 9router's "Compress tool output (RTK)". It replaces diff bodies with a placeholder, so the reviewer would approve a diff it never saw.
-- The template points opencode at the router's Anthropic-style endpoint (provider `9router-anthropic`, package `@ai-sdk/anthropic`). Through the OpenAI-style endpoint, some models (MiniMax M3, for one) write their reasoning into the answer text, which is then resent on every turn.
+- The template points opencode at the router's Anthropic-style endpoint (provider `9router-agent`, package `@ai-sdk/anthropic`). Through the OpenAI-style endpoint, some models (MiniMax M3, for one) write their reasoning into the answer text, which is then resent on every turn.
 
 ## Set up a project
 

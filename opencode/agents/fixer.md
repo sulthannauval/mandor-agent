@@ -1,7 +1,7 @@
 ---
 description: Mechanical fixer for changes that keep behavior the same, such as formatting, lint warnings, compile errors, markdown lint, changelog and docs updates, merge conflicts, and CI failures whose cause is already clear. Behavior changes and new tests go to the coder. Give it the worktree path. Hands back an uncommitted diff for the executor to commit.
 mode: subagent
-model: 9router-anthropic/fixer-agent
+model: 9router-agent/fixer-agent
 permission:
   edit: allow
   task: deny

@@ -104,9 +104,9 @@ def main():
                 check(skill in listed, f"{rel}: preloads {skill!r}, which skills.txt does not install")
 
     config = json.loads(strip_jsonc(read("opencode/opencode.jsonc.template").replace("@HOME@", HOME)))
-    combos = set(config["provider"]["9router-anthropic"]["models"])
+    combos = set(config["provider"]["9router-agent"]["models"])
     check(combos == {f"{role}-agent" for role in ROLES | {"executor"}}, f"template combos are {sorted(combos)}")
-    check(config.get("model") == "9router-anthropic/executor-agent", f"template default model is {config.get('model')!r}")
+    check(config.get("model") == "9router-agent/executor-agent", f"template default model is {config.get('model')!r}")
     check(f"{HOME}/.config/mandor/WORKFLOW.md" in config.get("instructions", []), "template instructions miss WORKFLOW.md")
     for name, provider in config["provider"].items():
         options = provider.get("options", {})
@@ -121,7 +121,7 @@ def main():
     for name, (rel, meta, body) in opencode.items():
         check(isinstance(meta.get("description"), str) and meta["description"].strip(), f"{rel}: no description")
         check(meta.get("mode") == "subagent", f"{rel}: mode is {meta.get('mode')!r}")
-        check(meta.get("model") == f"9router-anthropic/{name}-agent", f"{rel}: model is {meta.get('model')!r}")
+        check(meta.get("model") == f"9router-agent/{name}-agent", f"{rel}: model is {meta.get('model')!r}")
         check(isinstance(meta.get("permission"), dict), f"{rel}: no permission block")
         check(body.strip(), f"{rel}: empty body")
 

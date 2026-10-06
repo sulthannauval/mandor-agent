@@ -2,8 +2,8 @@
 // install.sh renders this file to ~/.config/opencode/opencode.jsonc (replacing @HOME@).
 // The router URL and key come from ~/.config/mandor/router-url and router-key, one value per file,
 // read with {file:...} so every opencode session finds them, whether a launcher started it or not.
-// Provider "9router-anthropic" holds the five role combos; create them in your router with the same names.
-// Provider "9router" lists single models for manual picks; edit it to match what your router serves.
+// Provider "9router-agent" holds the five role combos; create them in your router with the same names.
+// Provider "9router" is the OpenAI-style endpoint with no models listed; add single models there for manual picks.
 {
   "$schema": "https://opencode.ai/config.json",
   "provider": {
@@ -13,202 +13,9 @@
         "baseURL": "{file:~/.config/mandor/router-url}",
         "apiKey": "{file:~/.config/mandor/router-key}"
       },
-      "models": {
-        "alitp-intl/deepseek-v4-pro": {
-          "name": "alitp-intl/deepseek-v4-pro",
-          "modalities": {
-            "input": [
-              "text",
-              "image"
-            ],
-            "output": [
-              "text"
-            ]
-          }
-        },
-        "alitp-intl/deepseek-v4.1-flash": {
-          "name": "alitp-intl/deepseek-v4.1-flash",
-          "modalities": {
-            "input": [
-              "text",
-              "image"
-            ],
-            "output": [
-              "text"
-            ]
-          }
-        },
-        "alitp-intl/glm-5.2": {
-          "name": "alitp-intl/glm-5.2",
-          "modalities": {
-            "input": [
-              "text",
-              "image"
-            ],
-            "output": [
-              "text"
-            ]
-          }
-        },
-        "alitp-intl/qwen3.6-flash": {
-          "name": "alitp-intl/qwen3.6-flash",
-          "modalities": {
-            "input": [
-              "text",
-              "image"
-            ],
-            "output": [
-              "text"
-            ]
-          }
-        },
-        "alitp-intl/qwen3.7-max": {
-          "name": "alitp-intl/qwen3.7-max",
-          "modalities": {
-            "input": [
-              "text",
-              "image"
-            ],
-            "output": [
-              "text"
-            ]
-          }
-        },
-        "alitp-intl/qwen3.7-plus": {
-          "name": "alitp-intl/qwen3.7-plus",
-          "modalities": {
-            "input": [
-              "text",
-              "image"
-            ],
-            "output": [
-              "text"
-            ]
-          }
-        },
-        "alitp-intl/qwen3.8-max": {
-          "name": "alitp-intl/qwen3.8-max",
-          "modalities": {
-            "input": [
-              "text",
-              "image"
-            ],
-            "output": [
-              "text"
-            ]
-          }
-        },
-        "alitp-intl/qwen3.8-max-preview": {
-          "name": "alitp-intl/qwen3.8-max-preview",
-          "modalities": {
-            "input": [
-              "text",
-              "image"
-            ],
-            "output": [
-              "text"
-            ]
-          }
-        },
-        "glm/glm-4.6v": {
-          "name": "glm/glm-4.6v",
-          "modalities": {
-            "input": [
-              "text",
-              "image"
-            ],
-            "output": [
-              "text"
-            ]
-          }
-        },
-        "glm/glm-4.7": {
-          "name": "glm/glm-4.7",
-          "modalities": {
-            "input": [
-              "text",
-              "image"
-            ],
-            "output": [
-              "text"
-            ]
-          }
-        },
-        "glm/glm-5": {
-          "name": "glm/glm-5",
-          "modalities": {
-            "input": [
-              "text",
-              "image"
-            ],
-            "output": [
-              "text"
-            ]
-          }
-        },
-        "glm/glm-5-turbo": {
-          "name": "glm/glm-5-turbo",
-          "modalities": {
-            "input": [
-              "text",
-              "image"
-            ],
-            "output": [
-              "text"
-            ]
-          }
-        },
-        "glm/glm-5.1": {
-          "name": "glm/glm-5.1",
-          "modalities": {
-            "input": [
-              "text",
-              "image"
-            ],
-            "output": [
-              "text"
-            ]
-          }
-        },
-        "glm/glm-5.2": {
-          "name": "glm/glm-5.2",
-          "modalities": {
-            "input": [
-              "text",
-              "image"
-            ],
-            "output": [
-              "text"
-            ]
-          }
-        },
-        "glm/glm-5.3": {
-          "name": "glm/glm-5.3",
-          "modalities": {
-            "input": [
-              "text",
-              "image"
-            ],
-            "output": [
-              "text"
-            ]
-          }
-        },
-        "glm/glm-5.3-flash": {
-          "name": "glm/glm-5.3-flash",
-          "modalities": {
-            "input": [
-              "text",
-              "image"
-            ],
-            "output": [
-              "text"
-            ]
-          }
-        }
-      }
+      "models": {}
     },
-    "9router-anthropic": {
+    "9router-agent": {
       "npm": "@ai-sdk/anthropic",
       "options": {
         "baseURL": "{file:~/.config/mandor/router-url}",
@@ -328,7 +135,7 @@
       }
     }
   },
-  "model": "9router-anthropic/executor-agent",
+  "model": "9router-agent/executor-agent",
   "instructions": [
     "CLAUDE.md",
     "CLAUDE.local.md",

@@ -1,7 +1,7 @@
 ---
 description: Read-only scout. Use for drift checks, verifying plan premises against the source, finding every call site or consumer, reading large files, and summarising CI failure logs. Several may run in parallel.
 mode: subagent
-model: 9router-anthropic/scout-agent
+model: 9router-agent/scout-agent
 steps: 30
 permission:
   edit: deny
