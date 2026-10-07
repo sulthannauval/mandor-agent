@@ -35,7 +35,7 @@ The protocols are two files. [`core/WORKFLOW.md`](core/WORKFLOW.md) is the execu
 | | opencode (default) | Claude Code (occasional) |
 |---|---|---|
 | Start | `opencode-executor` | `claude-executor` |
-| Models | combos in your router, one per role | Anthropic models on your Claude subscription: executor and reviewer Opus, coder and fixer Sonnet, scout Haiku |
+| Models | combos in your router, one per role | Anthropic models on your Claude subscription: reviewer Opus, executor and coder Sonnet, fixer and scout Haiku |
 | Rules enforced by | per-agent permissions in the agent files and `opencode.jsonc` | a guard hook that knows which agent is calling ([`claude/guard.py`](claude/guard.py)) |
 | Reviewer independence | a different model family from the coder | a different tier and a fresh context |
 

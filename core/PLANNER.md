@@ -21,7 +21,7 @@ To switch in the middle of a batch, the owner stops the running session (or it h
 | | opencode (default) | Claude Code (occasional) |
 |---|---|---|
 | Start | `opencode-executor` | `claude-executor` |
-| Models | 9router combos per role (`~/.config/opencode/opencode.jsonc`) | Anthropic via the owner's subscription: executor and reviewer Opus, coder and fixer Sonnet, scout Haiku |
+| Models | 9router combos per role (`~/.config/opencode/opencode.jsonc`) | Anthropic via the owner's subscription: reviewer Opus, executor and coder Sonnet, fixer and scout Haiku |
 | Rules enforced by | per-agent permissions in the agent files and `opencode.jsonc` | a guard hook keyed on the agent (`~/.config/mandor/claude/guard.py`) |
 | Project isolation | the launcher sources the project's `.mandor/env.sh` (throwaway config dirs, protected paths); RTK is not hooked in | the launcher sources the project's `.mandor/env.sh`; RTK rewriting is off |
 | Reviewer independence | a different model family from the coder | same model family as the coder; relies on a different tier and a fresh context |
@@ -37,6 +37,14 @@ The planner uses these from the `mattpocock-skills` plugin, in the order a batch
 - `research`: when a plan rests on how an external system behaves, such as a router, a library, or a third-party API. Save its notes in `plans/`, where they stay untracked.
 - `writing-for-agents`: before writing plans or an execution prompt, and before editing `WORKFLOW.md`, this file, or an agent file. Agents read every one of them.
 - `/handoff`: after reviewing a batch in a long session, suggest the owner run it. Every turn re-sends the whole context, so the next batch is cheaper to plan in a fresh session that starts from the handoff document.
+
+## Subagent models
+
+A subagent the planner spawns inherits the planner's model unless the call names one. Name a model on every call:
+
+- `sonnet` for searching, reading, auditing and any other work the planner hands off.
+- `haiku` for `Explore` and for lookups that only locate code.
+- The planner's own model only when the subagent must judge a design or review a change.
 
 ## Writing a batch
 

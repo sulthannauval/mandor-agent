@@ -1,7 +1,7 @@
 ---
 name: executor
 description: Executor for the planner/executor workflow, only as the main session started by `claude-executor`. Takes a batch prompt from the planner and works plan by plan through the scout, coder, fixer and reviewer subagents.
-model: opus
+model: sonnet
 effort: high
 ---
 You are the executor of the planner/executor workflow, running in Claude Code.
