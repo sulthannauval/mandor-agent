@@ -28,7 +28,7 @@ Reading is the one thing that may start early. While a PR's checks or `main` CI 
 
 Before the first plan, record the batch base: `git rev-parse origin/main`. Write it into the handoff plan's status table and into report item 1.
 
-**Continuing a batch.** The owner may move a batch between runtimes (opencode and Claude Code) at any time, or restart a session that died. When the prompt says to continue a batch, keep the base already in the status table, then rebuild the state from the source of truth: the status table, `git log origin/main`, open PRs (`gh pr list --state open`) and existing worktrees (`git worktree list`). Start from the first plan not marked done. A plan with an open PR resumes at step 8 (PR green). A plan with a worktree but no PR resumes with a scout check of what that worktree already holds. Record in report item 3 which plans the earlier session had finished.
+**Continuing a batch.** The owner may move a batch between runtimes (opencode and Claude Code) at any time, or restart a session that died. When the prompt says to continue a batch, keep the base already in the status table, then rebuild the state from the source of truth: the status table, `git log origin/main`, open PRs (`gh pr list --state open`) and existing worktrees (`git worktree list`). Start from the first plan not marked done. A plan with an open PR resumes at step 8 (PR green). A plan with a worktree but no PR resumes with a scout check of what that worktree already holds. Mark the plans the earlier session finished as `earlier` in report item 1.
 
 Work the plans in the order the prompt gives. A plan marked "needs X" is simply later in the order: by the time you reach it, X is merged and `main` is green. If X stopped or is blocked, skip every plan that needs X and record why in report item 3.
 
@@ -67,7 +67,7 @@ A STOP in the prompt's batch list ends the batch: stop there and write the final
 **`main` green**
 
 11. Watch CI on `main` for that merge commit until every run has finished: `gh run list --branch main --commit <full 40-character merge SHA> --json name,status,conclusion`. Use the full SHA: a short one returns an empty list even while runs are pending. If the list is empty right after the merge, wait a minute and query again. Some jobs run only on `main`, so `main` can turn red after a green PR.
-    - Green: update the plan's row in the handoff plan's status table (the checkpoint). Then remove the plan's worktree with `git worktree remove <path>`; its build directory goes with it. If git refuses because the worktree has uncommitted changes, leave the worktree in place and record its path in report item 3. Then go to the next plan.
+    - Green: update the plan's row in the handoff plan's status table (the checkpoint). Then remove the plan's worktree with `git worktree remove <path>`; its build directory goes with it. If git refuses because the worktree has uncommitted changes, leave the worktree in place and record its path in report item 8. Then go to the next plan.
     - Red: fix `main` before the next plan. Send `scout` to read the failed log. Fix it on a new branch from `origin/main` (mechanical to `fixer`, logic to `coder` then `reviewer`), open a fix PR, and run it through steps 8 to 11 like any plan. If `main` is still red after two fix rounds, stop the whole batch: every later plan would be built on a broken `main`. Write a blocker prompt and the final report.
 
 ## Commit and PR messages
@@ -111,14 +111,48 @@ Then continue with the next plan that is independent of the blocked one.
 
 ## Final report
 
-Write the report in this order. Write "none" for an item with nothing to report.
+The planner reads only this report, so every item carries its content in full; a pointer to an earlier message, a PR body or a log leaves the item empty. Write it in the owner's language, under the numbered headings below in English exactly as written, with "none" under a heading that has nothing to report.
 
-1. The runtime that ran the batch (opencode or Claude Code, and where it switched if it did). Batch range: the base SHA recorded before the first plan and the `main` SHA after the last merge. Then per plan (and per fix PR for a red `main`): PR number, branch, merge SHA, files changed, CI status on the PR and on `main` after the merge.
-2. Premises that turned out wrong: plan, claim, reality, `file:line`.
-3. What was not done, and why (STOP conditions, skipped steps, parts that did not apply).
-4. Verification actually run: commands and results, plus the mutation tried for each fix and whether the test failed.
-5. Found but not fixed, with `file:line`.
-6. Config, schema, or migration version if the project versions one and it changed, and whether a release is warranted.
-7. Per agent: the number of reviewer rejections and fix rounds. Per PR: the reviewer's final verdict, APPROVE or REJECT, which every PR has, and anything it flagged that you chose not to change, with the reason.
-8. The last plan completed (the checkpoint).
-9. Blocker prompts, in full, one per blocked plan.
+```text
+1. Runtime and range
+<opencode or Claude Code, and the plan where it switched if it did>
+Base <SHA>, main after the last merge <SHA, or "no merge">
+
+| Plan | Status | PR | Branch | Merge SHA | Files | CI on PR | CI on main | Session |
+
+2. Premises that turned out wrong
+- <plan and step>: <the claim>. The source shows <what>, `file:line`.
+
+3. Not done
+- <plan or step>: <why>
+
+4. Verification
+- `<command>`: <exit code or test counts>
+
+| Plan | Test | Line mutated | Test failed |
+
+5. Found but not fixed
+- `file:line`: <the defect>. <why it stayed>
+
+6. Version
+<the config, schema or migration version if it changed, and whether a release is warranted>
+
+7. Review
+| Plan | Rejections | Fix rounds | Final verdict | Flagged and not changed, with the reason |
+
+8. Checkpoint
+<the last plan completed>
+Uncommitted work: <worktree path and its files>
+
+9. Blockers
+<each blocker prompt, in full>
+
+10. For the owner and the planner
+- <an action the owner takes before the next session, or a question for the planner>
+```
+
+- Item 1 has one row per plan in the prompt's order, plans an earlier session finished included (Session `earlier`), and one row per fix PR for a red `main`. Status is one of `merged`, `stopped at step <n>`, `blocked`, `skipped (needs <X>)`, `not started`.
+- Item 2 holds claims the source contradicts. A line number that only moved stays in the coder's report.
+- Item 3 gives the reason for every item 1 row that is not `merged`, and for every STOP, skipped step, or part of a plan that did not apply. A defect you found goes in item 5.
+- Item 4 has one row per test the batch added or changed. Write `not tried` in the last two columns when no mutation ran.
+- Item 7's final verdict is APPROVE or REJECT; every PR has one.
