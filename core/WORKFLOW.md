@@ -111,48 +111,15 @@ Then continue with the next plan that is independent of the blocked one.
 
 ## Final report
 
-The planner reads only this report, so every item carries its content in full; a pointer to an earlier message, a PR body or a log leaves the item empty. Write it in the owner's language, under the numbered headings below in English exactly as written, with "none" under a heading that has nothing to report.
+The planner reads only this report, so every item carries its content in full; a pointer to an earlier message, a PR body or a log leaves the item empty. Write it in the owner's language, in this order, under these numbered headings, with "none" under a heading that has nothing to report.
 
-```text
-1. Runtime and range
-<opencode or Claude Code, and the plan where it switched if it did>
-Base <SHA>, main after the last merge <SHA, or "no merge">
-
-| Plan | Status | PR | Branch | Merge SHA | Files | CI on PR | CI on main | Session |
-
-2. Premises that turned out wrong
-- <plan and step>: <the claim>. The source shows <what>, `file:line`.
-
-3. Not done
-- <plan or step>: <why>
-
-4. Verification
-- `<command>`: <exit code or test counts>
-
-| Plan | Test | Line mutated | Test failed |
-
-5. Found but not fixed
-- `file:line`: <the defect>. <why it stayed>
-
-6. Version
-<the config, schema or migration version if it changed, and whether a release is warranted>
-
-7. Review
-| Plan | Rejections | Fix rounds | Final verdict | Flagged and not changed, with the reason |
-
-8. Checkpoint
-<the last plan completed>
-Uncommitted work: <worktree path and its files>
-
-9. Blockers
-<each blocker prompt, in full>
-
-10. For the owner and the planner
-- <an action the owner takes before the next session, or a question for the planner>
-```
-
-- Item 1 has one row per plan in the prompt's order, plans an earlier session finished included (Session `earlier`), and one row per fix PR for a red `main`. Status is one of `merged`, `stopped at step <n>`, `blocked`, `skipped (needs <X>)`, `not started`.
-- Item 2 holds claims the source contradicts. A line number that only moved stays in the coder's report.
-- Item 3 gives the reason for every item 1 row that is not `merged`, and for every STOP, skipped step, or part of a plan that did not apply. A defect you found goes in item 5.
-- Item 4 has one row per test the batch added or changed. Write `not tried` in the last two columns when no mutation ran.
-- Item 7's final verdict is APPROVE or REJECT; every PR has one.
+1. **Runtime and range.** The runtime (opencode or Claude Code) and the plan where it switched, if it did. The base SHA, and the `main` SHA after the last merge or "no merge". Then a table with one row per plan in the prompt's order, plans an earlier session finished included, and one row per fix PR for a red `main`. Its columns: plan, status, PR, branch, merge SHA, files changed, CI on the PR, CI on `main` after the merge, and the session that finished it. Status is one of merged, stopped at step <n>, blocked, skipped (needs <X>), not started.
+2. **Premises that turned out wrong.** For each: the plan and step, the claim, what the source shows, and `file:line`. Only claims the source contradicts; a line number that merely moved stays in the coder's report.
+3. **Not done.** The reason for every plan in item 1 that is not merged, and for every STOP, skipped step, or part of a plan that did not apply. A defect you found goes in item 5.
+4. **Verification.** The commands run, with exit codes or test counts. Then a table with one row per test the batch added or changed: plan, test, line mutated, and whether the test failed, or "not tried" when no mutation ran.
+5. **Found but not fixed.** Each with `file:line`, the defect, and why it stayed.
+6. **Version.** The config, schema or migration version if the project versions one and it changed, and whether a release is warranted.
+7. **Review.** A table with one row per PR: plan, reviewer rejections, fix rounds, final verdict (APPROVE or REJECT; every PR has one), and anything the reviewer flagged that you chose not to change, with the reason.
+8. **Checkpoint.** The last plan completed, and any uncommitted work left behind: the worktree path and its files.
+9. **Blockers.** Each blocker prompt, in full.
+10. **For the owner and the planner.** Actions the owner takes before the next session, and questions for the planner.
